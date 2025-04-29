@@ -1,24 +1,24 @@
-name: Deploy Lambda
+name: Deploy to AWS Lambda
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
+      - name: 📥 Checkout Code
         uses: actions/checkout@v3
-      - name: Create zip
-        run: zip lambda_function.zip lambda_function.py hello.py
 
-      - name: Set up Python
+      - name: 🐍 Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-      - name: Install AWS CLI v2
+
+      - name: 🔧 Install AWS CLI v2
         run: |
           sudo apt-get update
           sudo apt-get install -y unzip curl
@@ -27,17 +27,23 @@ jobs:
           sudo ./aws/install
           aws --version
 
-
-      - name: Configure AWS credentials
+      - name: 🔐 Configure AWS Credentials
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
         run: |
-          aws configure set aws_access_key_id ${{ secrets.AWS_ACCESS_KEY }}
-          aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_KEY }}
-          aws configure set default.region ${{ secrets.AWS_REGION }}
+          mkdir -p ~/.aws
+          echo "[default]" > ~/.aws/credentials
+          echo "aws_access_key_id=$AWS_ACCESS_KEY" >> ~/.aws/credentials
+          echo "aws_secret_access_key=$AWS_SECRET_KEY" >> ~/.aws/credentials
+          echo "[default]" > ~/.aws/config
+          echo "region=$AWS_REGION" >> ~/.aws/config
 
-      - name: Create zip
+      - name: 📦 Zip Lambda Code
         run: zip lambda_function.zip lambda_function.py hello.py
 
-      - name: Deploy to Lambda
+      - name: 🚀 Deploy to AWS Lambda
         run: |
           aws lambda update-function-code \
             --function-name myGithubLambda \
