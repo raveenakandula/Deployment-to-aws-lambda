@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
+      - name: Create zip
+        run: zip lambda_function.zip lambda_function.py hello.py
 
       - name: Set up Python
         uses: actions/setup-python@v4
