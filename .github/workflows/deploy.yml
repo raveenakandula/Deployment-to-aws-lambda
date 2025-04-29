@@ -31,5 +31,5 @@ jobs:
     - name: Upload to AWS Lambda
       run: |
         aws lambda update-function-code \
-          --function-name your-lambda-function-name \
+          --function-name myGithubLambda \
           --zip-file fileb://python.zip
