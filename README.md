@@ -88,12 +88,15 @@ def lambda_handler(event, context):
 ## Output i got from Lambda function 
 "This function came from GitHub Actions"
 ##  Problems i Faced & How i solved them 
-**Problem**                             **Solution**
-AWS CLI failed to install------Corrected YAML indentation and added unzip and curl in setup
-Zip file not found-------------Added zip command to GitHub Actions before deployment
-Bad indentation in YAML file--Fixed spacing and aligned run: blocks properly
-No response from Lambda----- 	Updated Lambda function code and tested with sample payload
-AWS credentials error------- 	Created GitHub secrets and used aws configure inside Actions properly
+  
+| **Problem**                      | **Solution**                                                                 |
+|----------------------------------|------------------------------------------------------------------------------|
+| AWS CLI failed to install        | Corrected YAML indentation and added `unzip` and `curl` in setup             |
+| Zip file not found               | Added `zip` command to GitHub Actions before deployment                      |
+| Bad indentation in YAML file     | Fixed spacing and aligned `run:` blocks properly                            |
+| No response from Lambda          | Updated Lambda function code and tested with sample payload                 |
+| AWS credentials error            | Created GitHub secrets and used `aws configure` inside Actions properly     |
+
 
 **Tip for Beginners**
 Don't worry if you see errors in the beginning solving them gives you real knowledge. Every error I faced helped me understand how GitHub Actions and AWS Lambda really work together.
